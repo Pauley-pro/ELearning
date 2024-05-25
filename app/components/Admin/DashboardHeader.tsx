@@ -46,7 +46,7 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
             refetch();
             playerNotificationSound();
         });
-    }, [refetch]);
+    }, [refetch, playerNotificationSound]);
 
     const handleNotificationStatusChange = async (id: string) => {
         await updateNotificationStatus(id);
