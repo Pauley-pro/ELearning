@@ -1,3 +1,4 @@
+"use client"
 import { Suspense } from 'react';
 import { useGetUsersAllCoursesQuery } from '@/redux/features/courses/coursesApi';
 import { useGetHeroDataQuery } from '@/redux/features/layout/layoutApi';
