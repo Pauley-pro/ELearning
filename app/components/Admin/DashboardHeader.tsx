@@ -1,7 +1,7 @@
-'use client'
+'use client';
 import { ThemeSwitcher } from '@/app/utils/ThemeSwitcher';
 import { format } from 'timeago.js';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState, useCallback } from 'react';
 import { IoMdNotificationsOutline } from "react-icons/io";
 import socketIO from "socket.io-client";
 import { useGetAllNotificationsQuery, useUpdateNotificationStatusMutation } from '@/redux/features/notifications/notificationsApi';
@@ -19,15 +19,19 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
     });
     const [updateNotificationStatus, { isSuccess }] = useUpdateNotificationStatusMutation();
     const [notifications, setNotifications] = useState<any>([]);
-    const [audio] = useState(
+    const audio = useState(
         new Audio(
             "https://res.cloudinary.com/polad/video/upload/v1715437373/notification_pwnhdu.mp3"
         )
-    );
+    )[0]; // Ensure audio is properly initialized
 
-    const playerNotificationSound = () => {
-        audio.play();
-    };
+    const playerNotificationSound = useCallback(() => {
+        if (audio) {
+            audio.play().catch(error => {
+                console.error("Error playing audio:", error);
+            });
+        }
+    }, [audio]);
 
     useEffect(() => {
         if (data) {
@@ -46,6 +50,10 @@ const DashboardHeader: FC<Props> = ({ open, setOpen }) => {
             refetch();
             playerNotificationSound();
         });
+
+        return () => {
+            socketId.off("newNotification");
+        };
     }, [refetch, playerNotificationSound]);
 
     const handleNotificationStatusChange = async (id: string) => {

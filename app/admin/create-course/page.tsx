@@ -1,10 +1,9 @@
-"use client"
+"use client";
 import React, { useState } from 'react';
 import AdminSidebar from "../../components/Admin/sidebar/AdminSidebar";
 import Heading from "../../../app/utils/Heading";
 import CreateCourse from "../../components/Admin/Course/CreateCourse";
 import DashboardHeader from '../../../app/components/Admin/DashboardHeader';
-
 
 type Props = {}
 
@@ -20,11 +19,11 @@ const Page = (props: Props) => {
             />
             <div className="flex">
                 <div className="1500px:w-[16%] w-1/5">
-                    <AdminSidebar />
+                    {typeof window !== "undefined" && <AdminSidebar />}
                 </div>
                 <div className="w-[85%]">
-                    <DashboardHeader open={open} setOpen={setOpen} />
-                    <CreateCourse />
+                    {typeof window !== "undefined" && <DashboardHeader open={open} setOpen={setOpen} />}
+                    {typeof window !== "undefined" && <CreateCourse />}
                 </div>
             </div>
         </div>
