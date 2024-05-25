@@ -1,16 +1,16 @@
-'use client'
-import { useGetUsersAllCoursesQuery } from '@/redux/features/courses/coursesApi'
-import { useGetHeroDataQuery } from '@/redux/features/layout/layoutApi'
-import { useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-import Loader from '../components/Loader/Loader'
-import Header from '../components/Header'
-import Heading from '../utils/Heading'
-import { styles } from '../styles/style'
-import CourseCard from '../components/Course/CourseCard'
-import Footer from '../components/Footer'
+import { Suspense } from 'react';
+import { useGetUsersAllCoursesQuery } from '@/redux/features/courses/coursesApi';
+import { useGetHeroDataQuery } from '@/redux/features/layout/layoutApi';
+import { useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import Loader from '../components/Loader/Loader';
+import Header from '../components/Header';
+import Heading from '../utils/Heading';
+import { styles } from '../styles/style';
+import CourseCard from '../components/Course/CourseCard';
+import Footer from '../components/Footer';
 
-type Props = {}
+type Props = {};
 
 const Page = (props: Props) => {
     const searchParams = useSearchParams();
@@ -38,9 +38,9 @@ const Page = (props: Props) => {
     const categories = categoriesData?.layout.categories;
 
     return (
-        <div className="min-h-screen">
-            {
-                isLoading ? (
+        <Suspense fallback={<Loader />}>
+            <div className="min-h-screen">
+                {isLoading ? (
                     <Loader />
                 ) : (
                     <>
@@ -98,10 +98,10 @@ const Page = (props: Props) => {
                         <br />
                         <Footer />
                     </>
-                )
-            }
-        </div>
-    )
-}
+                )}
+            </div>
+        </Suspense>
+    );
+};
 
-export default Page
+export default Page;
