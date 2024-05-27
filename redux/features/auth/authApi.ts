@@ -1,3 +1,4 @@
+import { server } from "../../../server";
 import { apiSlice } from "../api/apiSlice";
 import { userLoggedIn, userLoggedOut, userRegistration } from "./authSlice";
 
@@ -13,7 +14,7 @@ export const authApi = apiSlice.injectEndpoints({
         // endpoints here
         register: builder.mutation<RegistrationResponse, RegistrationData>({
             query: (data) => ({
-                url:"registration",
+                url: `${server}/registration`,
                 method:"POST",
                 body:data,
                 credentials:"include" as const,
